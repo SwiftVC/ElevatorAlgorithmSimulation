@@ -19,7 +19,8 @@ public:
     LiftEnvironmentData(QueuesAtFloors* queueRef, QueuesAtFloors* outputRef) : queuesRef(queueRef), outputsRef{ outputRef } { floorBeingServiced.resize(queueRef->floorCount(), false); }
 
     LiftEnvironmentData() : queuesRef(nullptr), outputsRef(nullptr) {}
-    bool requestAtFloor(int currFloor) {
+
+    bool externalRequestAtFloor(int currFloor) {
         return queuesRef->peopleAtFloor(currFloor) != 0;
     }
 
@@ -62,13 +63,13 @@ private:
     Elevator elev;
     std::thread elevThread;
     std::vector<bool> floorButtonPanel;
+    LiftEnvironmentData liftEnvData;
 
     bool canElevMoveUp() { return currentFloor() + 1 < totalFloors; }
     bool canElevMoveDown() { return currentFloor() != 0; }
 
 public:
     bool stopThread{ false };
-    LiftEnvironmentData liftEnvData;
 
     explicit Lift(int floors, QueuesAtFloors* queuesRef, QueuesAtFloors* outputRef) : totalFloors(floors), liftEnvData(queuesRef, outputRef)  {
         elevThread = std::thread(liftLogic, std::ref(*this));
@@ -105,6 +106,10 @@ public:
         while (liftEnvData.peopleAtFloor(currentFloor) > 0 && !elev.full())
             {elev.addPerson(liftEnvData.pickupPersIndiscrimintately(currentFloor));}
     }
+
+    bool externalRequestAtFloor(int floor) {
+        return liftEnvData.externalRequestAtFloor(floor);
+    }
 };
 
 void liftLogic(Lift& lift) {
@@ -116,7 +121,7 @@ void liftLogic(Lift& lift) {
         lift.serveCurrentFloor();
 
         int currFloor = lift.currentFloor();
-        while(lift.liftEnvData.requestAtFloor(currFloor) == 0) {
+        while(lift.externalRequestAtFloor(currFloor) == 0) {
             lift.moveUp();
             currFloor = lift.currentFloor();
         }

@@ -8,10 +8,13 @@ class LiftEnvironmentData {
     std::mutex mu;
     QueuesAtFloors* queuesRef;
     QueuesAtFloors* outputsRef;
-    std::vector<bool> floorBeingServiced;
+
+    //std::vector<bool> floorBeingServiced; // used to avoid elevators going to same floor
 
 public:
-    LiftEnvironmentData(QueuesAtFloors* queueRef, QueuesAtFloors* outputRef) : queuesRef(queueRef), outputsRef{ outputRef } { floorBeingServiced.resize(queueRef->floorCount(), false); }
+    LiftEnvironmentData(QueuesAtFloors* queueRef, QueuesAtFloors* outputRef) : queuesRef(queueRef), outputsRef{ outputRef } {
+        //floorBeingServiced.resize(queueRef->floorCount(), false);
+    }
 
     LiftEnvironmentData() : queuesRef(nullptr), outputsRef(nullptr) {}
 
@@ -19,19 +22,19 @@ public:
         return queuesRef->peopleAtFloor(currFloor) != 0;
     }
 
-    const std::vector<bool>& getLiftCalls() {
-        return floorBeingServiced;
-    }
+    //const std::vector<bool>& getLiftCalls() {
+    //    return floorBeingServiced;
+    //}
 
-    void answerFloorCall(int floor) {
-        std::lock_guard<std::mutex> lock(mu);
-        floorBeingServiced[floor] = true;
-    }
+    //void answerFloorCall(int floor) {
+    //    std::lock_guard<std::mutex> lock(mu);
+    //    floorBeingServiced[floor] = true;
+    //}
 
-    void finishedFloorCall(int floor) {
-        std::lock_guard<std::mutex> lock(mu);
-        floorBeingServiced[floor] = false;
-    }
+    //void finishedFloorCall(int floor) {
+    //    std::lock_guard<std::mutex> lock(mu);
+    //    floorBeingServiced[floor] = false;
+    //}
 
     void dropoffPers(int floor, Person& pers) {
         if (pers.desiredFloor != floor) {

@@ -11,6 +11,8 @@ public:
     std::chrono::steady_clock::time_point reachedDestinationTime;
 
     Person(int desiredFloor) : desiredFloor(desiredFloor)  {
+        if (desiredFloor <= 0) { throw std::exception("Person(int desiredFloor) initialised with <=0 floor"); }
+
         liftUseStarted = std::chrono::steady_clock::now();
         reachedDestinationTime = std::chrono::steady_clock::time_point::max();
     }

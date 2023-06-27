@@ -19,10 +19,15 @@ public:
         BROKEN
     };
 private:
+    std::vector<bool> floorButtonPanel;
     ElevatorState state{ ElevatorState::OPEN };
     std::vector<Person> capacity;
-
+    int currentFloorVar{ 0 };
+    const int CAPACITY{ 8 };
 public:
+
+    Elevator(int floors){ floorButtonPanel.resize(floors, false); }
+    Elevator() { throw std::exception(); }
 
     void setState(ElevatorState state) { this->state = state; }
     ElevatorState getState() { return state; }
@@ -38,10 +43,7 @@ public:
             throw std::exception("Elevator instance in invalid state");
         }
     }
-
-    int currentFloorVar{ 0 };
-    const int CAPACITY{ 8 };
-    
+ 
     bool isOpen() { return state == ElevatorState::OPEN; }
     void open() { setState(ElevatorState::OPENING); std::this_thread::sleep_for(LIFTTIMEOPENING); setState(ElevatorState::OPEN); }
     void close() { setState(ElevatorState::CLOSING); std::this_thread::sleep_for(LIFTTIMECLOSING); setState(ElevatorState::CLOSED); std::this_thread::sleep_for(LIFTTIMECLOSEDBEFOREMOVE); }
@@ -50,9 +52,9 @@ public:
 
     const int currentFloor() { return currentFloorVar; }
 
-    int occupants() { return capacity.size(); }
+    const int occupants() { return capacity.size(); }
 
-    bool full() { return occupants() == CAPACITY; }
+    const bool full() { return occupants() == CAPACITY; }
     
     void addPerson(Person p) {
         if (full()) { throw std::exception("addPerson called on lift at capacity"); }
@@ -74,6 +76,18 @@ public:
         return ret;
     }
 
+    void deactivateFloorButton(int floor) {
+        floorButtonPanel[floor - 1] = false;
+    }
+    void activateFloorButton(int floor) {
+        floorButtonPanel[floor - 1] = true;
+    }
+
+    const bool internalRequestAtFloor(int floor) {
+        return floorButtonPanel[floor];
+    }
+
+    const int getCapacity() { return CAPACITY; }
 };
 
 #endif

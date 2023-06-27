@@ -49,7 +49,7 @@ public:
         return queuesRef->peopleAtFloor(floor);
     }
 
-    Person pickupPersIndiscrimintately(int floor) {
+    Person pickupPersIndiscriminately(int floor) {
         return queuesRef->removeFirstPersonIndiscriminately(floor);
     }
 

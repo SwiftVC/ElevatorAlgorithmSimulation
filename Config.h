@@ -3,7 +3,7 @@
 
 #include <chrono>
 
-float SIMULATIONSPEEDFACTOR = 1;
+float SIMULATIONSPEEDFACTOR = 2;
 
 auto LIFTTIMEBETWEENFLOORS = std::chrono::milliseconds(2000) / SIMULATIONSPEEDFACTOR;
 auto LIFTTIMECLOSING = std::chrono::milliseconds(2000) / SIMULATIONSPEEDFACTOR;

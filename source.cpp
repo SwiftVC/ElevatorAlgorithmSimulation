@@ -27,7 +27,7 @@ int main() {
 
     for(int i = 0; i < 10; i++)
     {
-        int personDesiredFloor = 0;
+        int personDesiredFloor = 5;
         int personCurrentFloor = 5;
         simulations[0].addPersonToFloor(Person{ personDesiredFloor }, personCurrentFloor);
     }

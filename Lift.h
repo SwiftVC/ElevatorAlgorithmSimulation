@@ -27,7 +27,6 @@ public:
         elevThread = std::thread(liftLogic, std::ref(*this));
         floorButtonPanel.resize(floors, false);
     }
-
     Lift(const Lift& li) { throw std::exception(); }
 
     void moveUp() { if (canElevMoveUp()) { elev.moveup(); } }

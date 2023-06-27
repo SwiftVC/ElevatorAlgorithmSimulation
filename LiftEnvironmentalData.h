@@ -6,7 +6,6 @@
 
 class LiftEnvironmentData {
     std::mutex mu;
-
     QueuesAtFloors* queuesRef;
     QueuesAtFloors* outputsRef;
     std::vector<bool> floorBeingServiced;

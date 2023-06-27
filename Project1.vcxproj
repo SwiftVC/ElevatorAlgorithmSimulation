@@ -135,6 +135,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="Building.h" />
     <ClInclude Include="Lift.h" />
+    <ClInclude Include="LiftEnvironmentalData.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="QueuesAtFloors.h" />
   </ItemGroup>

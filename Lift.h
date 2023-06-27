@@ -35,7 +35,6 @@ public:
     const int currentFloor() { return elev.currentFloor(); }
     bool atFloor(int i) { return i == currentFloor(); }
 
-
     Elevator::ElevatorState getState() { return elev.getState(); }
 
     ~Lift() {

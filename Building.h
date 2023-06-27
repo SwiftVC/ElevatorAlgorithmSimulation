@@ -46,6 +46,10 @@ public:
 			std::cout << "\n";
 		}
 	}
+
+	void interruptSimulation() {
+		lifts.clear();
+	}
 };
 
 #endif

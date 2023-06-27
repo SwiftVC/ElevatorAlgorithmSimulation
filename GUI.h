@@ -14,8 +14,8 @@ void printTerminalContent(Building& ref) {
     ref.getBuildingRepresentation();
 }
 
-void updateTerminal(Building& ref) {
-    while (true) {
+void updateTerminal(Building& ref, bool& interrupt) {
+    while (!interrupt) {
         clearWindowsTerminal();
 
         printTerminalContent(ref);

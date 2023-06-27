@@ -2,18 +2,29 @@
 #include <thread>
 #include <mutex>
 #include "GUI.h"
+#include "Input.h"
 
+std::vector<Building> simulations;
+bool interruptGUI{ false };
+
+void interruptSimulation() {
+    simulations[0].interruptSimulation();
+    interruptGUI = true;
+
+}
 
 int main() {
-    std::vector<Building> simulations;
-
+   
     simulations.reserve(1);
     {
         int floors = 10;
         int lifts = 1;
         simulations.emplace_back(floors, lifts); // MedicineChest, emplace_back is used as the threads never get joined, so the ~Building causes a freeze
     }
-   
+    
+    std::thread tGUI(updateTerminal, std::ref(simulations[0]), std::ref(interruptGUI));
+    std::thread tKeyboardinput(fToStop, interruptSimulation);
+
     for(int i = 0; i < 10; i++)
     {
         int personDesiredFloor = 0;
@@ -21,9 +32,16 @@ int main() {
         simulations[0].addPersonToFloor(Person{ personDesiredFloor }, personCurrentFloor);
     }
 
-    std::thread t_GUI(updateTerminal, std::ref(simulations[0]));
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+    for (int i = 0; i < 10; i++)
+    {
+        int personDesiredFloor = 5;
+        int personCurrentFloor = 9;
+        simulations[0].addPersonToFloor(Person{ personDesiredFloor }, personCurrentFloor);
+    }
 
-    t_GUI.join();
+    tGUI.join();
+    tKeyboardinput.join();
 
     return 0;
 }

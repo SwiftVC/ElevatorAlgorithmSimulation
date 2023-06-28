@@ -5,8 +5,9 @@ Simulates transfer of variable floors and variable elevators in a building:
   
 In its current configuration, each elevator operates on its own thread.
 When the simulation has finished, enter 'f' to get metrics:
-- average person transfer time
-- shortest person transfer time
+- Longest service time
+- Shortest service time
+- Average service time
 
 Simulation speed may be increased but starts to return inconsistent results at Config.h SIMULATIONSPEEDFACTOR > 5 (CPU: i5-12600K).
 This is due to elevator threads waiting on shared resources and the calculations for transfer times based on system clock.

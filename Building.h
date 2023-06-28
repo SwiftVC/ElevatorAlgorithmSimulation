@@ -6,6 +6,7 @@
 #include <vector>
 #include "Lift.h"
 #include <mutex>
+#include <numeric>
 
 class Building {
 private:
@@ -49,6 +50,23 @@ public:
 
 	void interruptSimulation() {
 		lifts.clear();
+	}
+
+	float averageServiceTime() {
+		const std::vector<float> peopleServiceTimes = output.serviceTimeSeconds();
+		return std::accumulate(peopleServiceTimes.begin(), peopleServiceTimes.end(), 0);
+	}
+
+	float longestServiceTime() {
+		const std::vector<float> peopleServiceTimes = output.serviceTimeSeconds();
+		auto it = std::max_element(peopleServiceTimes.begin(), peopleServiceTimes.end());
+		return *it;
+	}
+
+	float shortestServiceTime() {
+		const std::vector<float> peopleServiceTimes = output.serviceTimeSeconds();
+		auto it = std::min_element(peopleServiceTimes.begin(), peopleServiceTimes.end());
+		return *it;
 	}
 };
 

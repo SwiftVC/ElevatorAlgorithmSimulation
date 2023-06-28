@@ -19,7 +19,7 @@ public:
 
     void reachedDestination(){ reachedDestinationTime = std::chrono::steady_clock::now(); }
 
-    float SecondsForElevatorTravel() {
+    float secondsForElevatorTravel() {
         /*
         Includes waiting in queue time, takes simulation speed factor into consideration.
         */

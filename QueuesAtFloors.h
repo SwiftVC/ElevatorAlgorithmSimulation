@@ -39,6 +39,20 @@ public:
 		return queuesAtFloors.size();
 	}
 
+	const std::vector<float> serviceTimeSeconds() {
+		/* Returns a vector<float> of seconds for each person served */
+		std::vector<float> ret;
+
+		std::lock_guard<std::mutex> lock(mu);
+		for (int floorIndex = 0; floorIndex < queuesAtFloors.size(); floorIndex++) {
+			for (std::list<Person>::iterator persIt = queuesAtFloors[floorIndex].begin(); persIt != queuesAtFloors[floorIndex].end(); persIt++) {
+				Person p = *persIt;
+				ret.push_back(p.secondsForElevatorTravel());
+			}
+		}
+		return ret;
+	}
+
 };
 
 #endif

@@ -18,7 +18,7 @@ int main() {
     simulations.reserve(1);
     {
         int floors = 10;
-        int lifts = 4;
+        int lifts = 1;
         simulations.emplace_back(floors, lifts); // MedicineChest, emplace_back is used as the threads never get joined, so the ~Building causes a freeze
     }
     

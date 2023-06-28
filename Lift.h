@@ -119,7 +119,9 @@ public:
         if (currentFloor == getEndDestination()) { endDestinationServiced(); }
 
         std::vector<Person> peopleGettingOff = elev.deloadPerson();
-        for (Person& pers : peopleGettingOff) { liftEnvData.dropoffPers(currentFloor, pers); }
+        for (Person& pers : peopleGettingOff) {
+            liftEnvData.dropoffPers(currentFloor, pers);
+        }
 
 
         while (liftEnvData.peopleAtFloor(currentFloor) > 0 && !elev.full())
@@ -195,8 +197,7 @@ void liftLogicLoop(Lift& lift) {
         int currFloor = lift.currentFloor();
         if(lift.externalRequestAtFloor(currFloor) &&
             !lift.atCapacity() ||
-            lift.internalRequestAtFloor(currFloor) || currFloor == lift.getEndDestination())
-        {
+            lift.internalRequestAtFloor(currFloor) || currFloor == lift.getEndDestination()){
             lift.serveCurrentFloor();
         }
 

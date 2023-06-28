@@ -68,6 +68,7 @@ public:
         std::vector<Person> ret;
         capacity.erase(std::remove_if(capacity.begin(), capacity.end(), [&](Person pers) {
             if (pers.desiredFloor == currentFloorVar) {
+                std::this_thread::sleep_for(LIFTTIMEDELOADPERSON);
                 ret.push_back(pers);
                 return true;
             }

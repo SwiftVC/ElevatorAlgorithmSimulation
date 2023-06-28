@@ -29,21 +29,22 @@ public:
 
 	void getBuildingRepresentation() {
 		for (int floorIndex = floors - 1; floorIndex > -1; floorIndex--) {
-			std::cout << "Floor: " << std::setw(4) << floorIndex + 1 << "|";
+			int floor = floorIndex + 1;
+			std::cout << "Floor: " << std::setw(4) << floor << "|";
 
 			// for each floor output queue remaining (Assumption: lifts are next to oneanother and service same queue)
 			std::cout << "Queue: ";
-			std::cout << std::setw(3) << queuesAtFloors.peopleAtFloor(floorIndex) << " | ";
+			std::cout << std::setw(3) << queuesAtFloors.peopleAtFloor(floor) << " | ";
 
 			// for each floor output lift status OR placeholder image if lift elsewhere
 			for (int liftIndex = 0; liftIndex < lifts.size(); liftIndex++) {
 				std::cout << std::setw(Elevator::ELEVATORSTATEMAXFIELDWIDTH);
-				if (lifts[liftIndex].atFloor(floorIndex) != true){std::cout << ""<< " : " << std::setw(6) << " | ";}
+				if (lifts[liftIndex].atFloor(floor) != true){std::cout << ""<< " : " << std::setw(6) << " | ";}
 				else { std::cout << Elevator::elevatorStateToString(lifts[liftIndex].getState()) << " : " << std::setw(3) << lifts[liftIndex].occupants() << " | ";}
 			}
 
 			std::cout << "Output: ";
-			std::cout << std::setw(3) << output.peopleAtFloor(floorIndex) << " | ";
+			std::cout << std::setw(3) << output.peopleAtFloor(floor) << " | ";
 			std::cout << "\n";
 		}
 	}
@@ -54,7 +55,7 @@ public:
 
 	float averageServiceTime() {
 		const std::vector<float> peopleServiceTimes = output.serviceTimeSeconds();
-		return std::accumulate(peopleServiceTimes.begin(), peopleServiceTimes.end(), 0);
+		return std::accumulate(peopleServiceTimes.begin(), peopleServiceTimes.end(), 0)/peopleServiceTimes.size();
 	}
 
 	float longestServiceTime() {

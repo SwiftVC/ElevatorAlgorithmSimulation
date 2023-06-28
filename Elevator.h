@@ -22,7 +22,7 @@ private:
     std::vector<bool> floorButtonPanel;
     ElevatorState state{ ElevatorState::OPEN };
     std::vector<Person> capacity;
-    int currentFloorVar{ 0 };
+    int currentFloorVar{ 1 };
     const int CAPACITY{ 8 };
 public:
 
@@ -84,10 +84,12 @@ public:
     }
 
     const bool internalRequestAtFloor(int floor) {
-        return floorButtonPanel[floor];
+        return floorButtonPanel[floor - 1];
     }
 
     const int getCapacity() { return CAPACITY; }
+
+    const std::vector<bool> getFloorButtonPanel() { return floorButtonPanel; }
 };
 
 #endif

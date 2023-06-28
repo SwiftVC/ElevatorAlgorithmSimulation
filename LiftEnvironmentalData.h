@@ -9,11 +9,11 @@ class LiftEnvironmentData {
     QueuesAtFloors* queuesRef;
     QueuesAtFloors* outputsRef;
 
-    //std::vector<bool> floorBeingServiced; // used to avoid elevators going to same floor
+    //std::vector<bool> floorBeingServiced; // resolving multiple elevators
 
 public:
     LiftEnvironmentData(QueuesAtFloors* queueRef, QueuesAtFloors* outputRef) : queuesRef(queueRef), outputsRef{ outputRef } {
-        //floorBeingServiced.resize(queueRef->floorCount(), false);
+        //floorBeingServiced.resize(queueRef->floorCount(), false);  // resolving multiple elevators
     }
 
     LiftEnvironmentData() : queuesRef(nullptr), outputsRef(nullptr) {}
@@ -22,16 +22,16 @@ public:
         return queuesRef->peopleAtFloor(currFloor) != 0;
     }
 
-    //const std::vector<bool>& getLiftCalls() {
+    //const std::vector<bool>& getLiftCalls() {  // resolving multiple elevators
     //    return floorBeingServiced;
     //}
 
-    //void answerFloorCall(int floor) {
+    //void answerFloorCall(int floor) {  // resolving multiple elevators
     //    std::lock_guard<std::mutex> lock(mu);
     //    floorBeingServiced[floor] = true;
     //}
 
-    //void finishedFloorCall(int floor) {
+    //void finishedFloorCall(int floor) {  // resolving multiple elevators
     //    std::lock_guard<std::mutex> lock(mu);
     //    floorBeingServiced[floor] = false;
     //}
@@ -52,6 +52,8 @@ public:
     Person pickupPersIndiscriminately(int floor) {
         return queuesRef->removeFirstPersonIndiscriminately(floor);
     }
+
+    const std::vector<bool> getExternalButtonPanel() { return queuesRef->getExternalButtonPanel(); }
 
 };
 

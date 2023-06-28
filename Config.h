@@ -3,7 +3,7 @@
 
 #include <chrono>
 
-float SIMULATIONSPEEDFACTOR = 2;
+float SIMULATIONSPEEDFACTOR = 5; // variability in results where SIMULATIONSPEEDFACTOR > 5
 
 auto LIFTTIMEBETWEENFLOORS = std::chrono::milliseconds(2000) / SIMULATIONSPEEDFACTOR;
 auto LIFTTIMECLOSING = std::chrono::milliseconds(2000) / SIMULATIONSPEEDFACTOR;

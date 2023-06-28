@@ -19,24 +19,35 @@ public:
 
 	void addPersonToFloor(Person p, int floor) {
 		std::lock_guard<std::mutex> lock(mu);
-		queuesAtFloors[floor - 1].push_back(p);
+		int floorIndex = floor - 1;
+		queuesAtFloors[floorIndex].push_back(p);
 	}
 
 	const int peopleAtFloor(int floor) {
 		std::lock_guard<std::mutex> lock(mu);
-		return queuesAtFloors[floor].size();
+		int floorIndex = floor - 1;
+		return queuesAtFloors[floorIndex].size();
 	}
 
 	Person removeFirstPersonIndiscriminately(int floor) {
 		std::lock_guard<std::mutex> lock(mu);
-		Person pers = queuesAtFloors[floor].front();
-		queuesAtFloors[floor].pop_front();
+		int floorIndex = floor - 1;
+		Person pers = queuesAtFloors[floorIndex].front();
+		queuesAtFloors[floorIndex].pop_front();
 		return pers;
 	}
 
 	const int floorCount() {
 		std::lock_guard<std::mutex> lock(mu);
 		return queuesAtFloors.size();
+	}
+
+	const std::vector<bool> getExternalButtonPanel() {
+		// assumes that queue at floor results in button pressed
+		std::lock_guard<std::mutex> lock(mu);
+		std::vector<bool> vect;
+		for (auto queue : queuesAtFloors) { if (queue.size() > 0) { vect.push_back(true); } else { vect.push_back(false); } }
+		return vect;
 	}
 
 	const std::vector<float> serviceTimeSeconds() {

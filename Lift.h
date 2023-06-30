@@ -123,7 +123,6 @@ public:
             liftEnvData.dropoffPers(currentFloor, pers);
         }
 
-
         while (liftEnvData.peopleAtFloor(currentFloor) > 0 && !elev.full())
         {
             Person p = liftEnvData.pickupPersIndiscriminately(currentFloor);
@@ -195,10 +194,11 @@ void liftLogicLoop(Lift& lift) {
         // as the lift travels up each floor, check for updates on both the internal button panel, and the external requests at sed floor
 
         int currFloor = lift.currentFloor();
-        if(lift.externalRequestAtFloor(currFloor) &&
+        if (lift.externalRequestAtFloor(currFloor) &&
             !lift.atCapacity() ||
-            lift.internalRequestAtFloor(currFloor) || currFloor == lift.getEndDestination()){
-            lift.serveCurrentFloor();
+            lift.internalRequestAtFloor(currFloor) ||
+            currFloor == lift.getEndDestination()){
+                lift.serveCurrentFloor();
         }
 
         if (lift.getEndDestination() == -1) {
@@ -212,7 +212,6 @@ void liftLogicLoop(Lift& lift) {
             towardDestination(lift);
         }
     }
-
 }
 
 #endif

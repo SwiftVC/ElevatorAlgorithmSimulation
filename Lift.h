@@ -125,9 +125,12 @@ public:
 
         while (liftEnvData.peopleAtFloor(currentFloor) > 0 && !elev.full())
         {
-            Person p = liftEnvData.pickupPersIndiscriminately(currentFloor);
-            activateFloorButton(p.desiredFloor);
-            elev.addPerson(p);
+            try {
+                Person p = liftEnvData.pickupPersIndiscriminately(currentFloor);
+                activateFloorButton(p.desiredFloor);
+                elev.addPerson(p);
+            }
+            catch(const QueuesAtFloors::ServeEmptyFloor& e){;}
         }
 
         deactivateFloorButton(currentFloor);

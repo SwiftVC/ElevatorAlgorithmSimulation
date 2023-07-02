@@ -6,11 +6,19 @@
 #include <list>
 #include "Person.h"
 
+
+
+
 class QueuesAtFloors {
 	std::mutex mu;
 	std::vector<std::list<Person>> queuesAtFloors;
 
 public:
+	class ServeEmptyFloor : public std::exception {
+		using std::exception::exception;
+		// acceptable exception when "popping front" of empty floor queue
+	};
+
 	QueuesAtFloors() {}
 	QueuesAtFloors(int floors) {
 		std::lock_guard<std::mutex> lock(mu);
@@ -32,6 +40,7 @@ public:
 	Person removeFirstPersonIndiscriminately(int floor) {
 		std::lock_guard<std::mutex> lock(mu);
 		int floorIndex = floor - 1;
+		if (queuesAtFloors[floorIndex].empty()) { throw ServeEmptyFloor("removeFirstPersonIndiscriminately called with noone at floor"); }
 		Person pers = queuesAtFloors[floorIndex].front();
 		queuesAtFloors[floorIndex].pop_front();
 		return pers;

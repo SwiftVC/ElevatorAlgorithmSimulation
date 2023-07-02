@@ -1,8 +1,8 @@
 #ifndef LIFTENVIRONMENTALDATA_H_
 #define LIFTENVIRONMENTALDATA_H_
 
-#include "Elevator.h"
 #include <thread>
+#include <exception>
 
 class LiftEnvironmentData {
     std::mutex mu;
@@ -19,6 +19,7 @@ public:
     LiftEnvironmentData() : queuesRef(nullptr), outputsRef(nullptr) {}
 
     bool externalRequestAtFloor(int currFloor) {
+        std::lock_guard<std::mutex> lock(mu);
         return queuesRef->peopleAtFloor(currFloor) != 0;
     }
 
@@ -37,6 +38,7 @@ public:
     //}
 
     void dropoffPers(int floor, Person& pers) {
+        std::lock_guard<std::mutex> lock(mu);
         if (pers.desiredFloor != floor) {
             throw std::exception("Person served to wrong floor");
         }
@@ -46,10 +48,12 @@ public:
     }
 
     const int peopleAtFloor(int floor) {
+        std::lock_guard<std::mutex> lock(mu);
         return queuesRef->peopleAtFloor(floor);
     }
 
     Person pickupPersIndiscriminately(int floor) {
+        std::lock_guard<std::mutex> lock(mu);
         return queuesRef->removeFirstPersonIndiscriminately(floor);
     }
 
